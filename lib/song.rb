@@ -1,5 +1,6 @@
 require_relative "../config/environment.rb"
 require 'active_support/inflector'
+# where is this active_support directory? I don't see it... 
 
 class Song
 
@@ -19,10 +20,12 @@ class Song
     # returns array of column names
   end
 
+  # generates attr_accessor statement dynamically:
   self.column_names.each do |name|
     attr_accessor name.to_sym
     end
 
+  # takes in a hash and assigns them to the initialzing instance
   def initialize (options = {})
     options.each do |attribute, value|
       self.send("#{attribute}=", value)
