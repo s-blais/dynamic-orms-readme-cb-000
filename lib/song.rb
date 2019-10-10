@@ -1,6 +1,6 @@
 require_relative "../config/environment.rb"
 require 'active_support/inflector'
-# where is this active_support directory? I don't see it... 
+# where is this active_support directory? I don't see it...
 
 class Song
 
@@ -49,7 +49,7 @@ class Song
     values.join(",")
   end
 
-  def save
+  def save # see below for riskier but fully dynamic version
     DB[:conn].execute("INSERT INTO #{table_name_for_insert} (#{col_names_for_insert}) VALUES (?,?)", [values_for_insert])
       # why the brackets around values_for_insert?
       # I bet the "?/?,?" was removed because it's not truly abstracted and depends on the correct number of question marks being there
