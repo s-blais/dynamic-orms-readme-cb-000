@@ -38,9 +38,24 @@ class Song
     self.class.column_names.delete_if {|col| col == "id"}.join
   end
 
+  def values_for_insert
+    values = []
+    self.class.column_names.each do |col|
+      values << "'#{send(col)}'" unless send(col_name).nil?
+      end
+    values.join(",")
+  end
 
+  def save
+    DB[:conn].execute("INSERT INTO #{table_name_for_insert} #{col_names_for_insert} VALUES (?)", [values_for_insert])
+        # I don't understand the need for brackets in previous line around values_for_insert
+    @id = DB[:conn].execute("SELECT last_insert_rowid() FROM #{table_name_for_insert}")[0][0]
+  end
 
-sql = "INSERT INTO #{table_name_for_insert} (columns...) VALUES '...')"
+  def self.find_by_name (name)
+    DB[:conn].execute("SELECT * FROM #{self.table_name} WHERE name = ?, [name]")
+      # again, why the brackets?
+  end
 
   # def self.table_name
   #   self.to_s.downcase.pluralize
