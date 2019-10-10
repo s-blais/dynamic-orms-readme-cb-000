@@ -49,7 +49,7 @@ class Song
   def save
     DB[:conn].execute("INSERT INTO #{table_name_for_insert} (#{col_names_for_insert}) VALUES (?,?)", [values_for_insert])
       # why the brackets around values_for_insert?
-      # I bet the "?/?,?" was removed because it's not abstracted and depends on the correct number of question marks being there
+      # I bet the "?/?,?" was removed because it's not truly abstracted and depends on the correct number of question marks being there
     @id = DB[:conn].execute("SELECT last_insert_rowid() FROM #{table_name_for_insert}")[0][0]
   end
 
@@ -58,11 +58,10 @@ class Song
       # again, why the brackets?
   end
 
-
   # def save
   #   sql = "INSERT INTO #{table_name_for_insert} (#{col_names_for_insert}) VALUES (#{values_for_insert})"
   #   DB[:conn].execute(sql)
   #   @id = DB[:conn].execute("SELECT last_insert_rowid() FROM #{table_name_for_insert}")[0][0]
   # end
-  #
+
 end
